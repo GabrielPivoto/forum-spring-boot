@@ -2,19 +2,17 @@ package br.com.alura.forum.controller;
 
 import br.com.alura.forum.modelo.Curso;
 import br.com.alura.forum.modelo.Topico;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController //Já assume que todos os métodos vão conter @ResponseBody
 public class TopicosController {
 
     @RequestMapping("/topicos") //Endereço do mapeamento
-    @ResponseBody
     public List<Topico> lista(){
-        Topico topico = new Topico("Duvida","Duvida com Spring",new Curso("Spring","Programacao"));
+        Topico topico = new Topico("Dúvida","Dúvida com Spring",new Curso("Spring","Programacao"));
 
         return List.of(topico,topico,topico);
         //return Arrays.asList(topico,topico,topico);
