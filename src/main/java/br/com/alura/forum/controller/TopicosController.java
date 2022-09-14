@@ -1,5 +1,6 @@
 package br.com.alura.forum.controller;
 
+import br.com.alura.forum.controller.dto.TopicoDto;
 import br.com.alura.forum.modelo.Curso;
 import br.com.alura.forum.modelo.Topico;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +12,10 @@ import java.util.List;
 public class TopicosController {
 
     @RequestMapping("/topicos") //Endereço do mapeamento
-    public List<Topico> lista(){
+    public List<TopicoDto> lista(){
         Topico topico = new Topico("Dúvida","Dúvida com Spring",new Curso("Spring","Programacao"));
 
-        return List.of(topico,topico,topico);
+        return TopicoDto.converter(List.of(topico,topico,topico));
         //return Arrays.asList(topico,topico,topico);
     }
 
