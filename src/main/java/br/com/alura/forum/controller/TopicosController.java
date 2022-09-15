@@ -50,7 +50,8 @@ public class TopicosController {
      *
      */
     @PostMapping
-    public ResponseEntity<TopicoDto> cadatrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriComponentsBuilder){
+    @Transactional
+    public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriComponentsBuilder){
         Topico topico = form.conveter(cursoRepository);
         topicoRepository.save(topico);
         URI uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -77,6 +78,13 @@ public class TopicosController {
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizaTopicoForm form){
         Topico topico = form.atualizar(id, topicoRepository);
         return ResponseEntity.ok(new TopicoDto(topico));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> remover(@PathVariable Long id){
+        topicoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }
