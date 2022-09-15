@@ -85,7 +85,7 @@ public class TopicosController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remover(@PathVariable Long id){
         Optional<Topico> optional = topicoRepository.findById(id);
