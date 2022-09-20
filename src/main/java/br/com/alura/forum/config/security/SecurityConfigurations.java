@@ -18,7 +18,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         //Permite apenas requisições GET
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/topicos").permitAll()
-                .antMatchers(HttpMethod.GET,"/topicos/*").permitAll();
+                .antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
+                .anyRequest().authenticated() //requer a autenticação
+                .and().formLogin();
     }
 
     //Configurações de recursos estáticos (requisições para arquivos)
