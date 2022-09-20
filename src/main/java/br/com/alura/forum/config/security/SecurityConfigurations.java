@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity //habilita o módulo de segurança
@@ -23,9 +24,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         //Permite apenas requisições GET
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/topicos").permitAll()
+                .antMatchers(HttpMethod.POST,"/auth").permitAll()
                 .antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
                 .anyRequest().authenticated() //requer a autenticação
-                .and().formLogin();
+                //.and().formLogin() -> usado para criar sessão;
+                .and().csrf().disable() //desabilita a verificação do token
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     //Configurações de recursos estáticos (requisições para arquivos)
