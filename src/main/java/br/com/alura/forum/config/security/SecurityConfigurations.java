@@ -21,6 +21,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private AutenticacaoService autenticacaoService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -39,7 +42,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 //.and().formLogin() -> usado para criar sessão;
                 .and().csrf().disable() //desabilita a verificação do token
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//indica que autenticação é por token
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class); //roda o filtro antes de fazer a autenticação
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class); //roda o filtro antes de fazer a autenticação
     }
 
     //Configurações de recursos estáticos (requisições para arquivos)
