@@ -1,5 +1,6 @@
 package br.com.alura.forum.config.security;
 
+import br.com.alura.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -42,7 +46,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 //.and().formLogin() -> usado para criar sessão;
                 .and().csrf().disable() //desabilita a verificação do token
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//indica que autenticação é por token
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class); //roda o filtro antes de fazer a autenticação
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); //roda o filtro antes de fazer a autenticação
     }
 
     //Configurações de recursos estáticos (requisições para arquivos)
