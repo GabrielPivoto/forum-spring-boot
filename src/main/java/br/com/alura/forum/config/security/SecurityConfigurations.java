@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity //habilita o módulo de segurança
 @Configuration //Spring le e carrega as configurações presentes nessa classe
@@ -37,7 +38,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated() //requer a autenticação
                 //.and().formLogin() -> usado para criar sessão;
                 .and().csrf().disable() //desabilita a verificação do token
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//indica que autenticação é por token
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class); //roda o filtro antes de fazer a autenticação
     }
 
     //Configurações de recursos estáticos (requisições para arquivos)
